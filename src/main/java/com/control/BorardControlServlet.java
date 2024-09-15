@@ -116,7 +116,7 @@ public class BorardControlServlet extends HttpServlet {
 		
 		//http://localhost:8080/memberMVC/member/writeForm.do
 		//요청한 URL에서 "/member/writeForm.do" 뜯어오기
-		String category = request.getServletPath(); //'/member/checkId.do' 추출
+		String category = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
 		System.out.println("category = " + category);
 		
 		// Map을 이용하여 Key에 해당하는 값을 꺼내온다.  member.service.WriteFormService
