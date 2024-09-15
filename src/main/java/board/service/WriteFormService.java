@@ -2,12 +2,21 @@ package board.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.control.CommandProcess;
 
 public class WriteFormService implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-	    return "/board/boardWriteForm.html"; // 정적 파일의 경우 클라이언트에서 직접 접근 가능하도록
+	    HttpSession session = request.getSession();
+	    String id = (String) session.getAttribute("memId");
+	    if(id == null) {
+	    	 response.sendRedirect(request.getContextPath() + "/member/loginForm.do");
+	    	 return "none";
+	    }else
+	    	return "/board/boardWriteForm.html";
+	 
+	    
 	}
 }
