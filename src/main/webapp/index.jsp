@@ -55,7 +55,7 @@ h2 {
     <c:if test="${sessionScope.memId != null}">
         <h3><a href="${context}/member/logout.do">로그아웃</a></h3>
         <h3><a href="${context}/member/updateForm.do">회원정보수정</a></h3>
-        <h3><a href="${context}/board/writeForm.do">글쓰기</a></h3>
+        <h3><a href="${context}/boards/writeForm">글쓰기</a></h3>
    </c:if>
     </div>
 </body>

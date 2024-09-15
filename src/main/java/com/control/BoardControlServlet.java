@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(
-		urlPatterns = {"/board/*"},
+		urlPatterns = {"/boards/*"},
 		initParams = {
 				@WebInitParam(name="propertyConfig", value = "command.properties")
 		}
