@@ -32,11 +32,15 @@ public class BoardDAO {
 		}
 	}
 	
-	public void boardWrite(BoardDTO boardDTO) {
+	public int boardWrite(BoardDTO boardDTO) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
-		sqlSession.insert("boardSQL.boardWrite", boardDTO);
+		int result = 0;
+		
+		result = sqlSession.insert("boardSQL.boardWrite", boardDTO);
 		sqlSession.commit();
 		sqlSession.close();
+		
+		return result;
 	}
 	
 	public List<BoardDTO> boardList(int startNum, int endNum){

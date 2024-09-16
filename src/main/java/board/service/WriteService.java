@@ -18,6 +18,11 @@ public class WriteService implements CommandProcess{
 		String name = (String) session.getAttribute("memName");
 		String email = (String) session.getAttribute("memEmail");
 		
+        if (id == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  // 400 Bad Request
+            return "none";
+        }
+        
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
         
@@ -29,15 +34,13 @@ public class WriteService implements CommandProcess{
 		boardDTO.setContent(content);
 		
 		BoardDAO boardDAO = BoardDAO.getInstance(); 
-		try {
-            boardDAO.boardWrite(boardDTO);
-            response.setStatus(HttpServletResponse.SC_CREATED); // 201 Created
-        } catch (Exception e) {
-            // 에러 발생 시
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 Bad Request
-            e.printStackTrace();
-        }
+		int result = boardDAO.boardWrite(boardDTO);
 		
+		if (result > 0) 
+			response.setStatus(HttpServletResponse.SC_CREATED);  // 201 Created
+		else
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);  // 400 Bad Request
+	        		
 		return "none";
 	}
 }
