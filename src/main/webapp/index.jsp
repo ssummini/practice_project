@@ -57,6 +57,7 @@ h2 {
         <h3><a href="${context}/member/updateForm.do">회원정보수정</a></h3>
         <h3><a href="${context}/boards/writeForm">글쓰기</a></h3>
    </c:if>
+      <h3><a href="${context}/boards/listForm">글 목록</a></h3>
     </div>
 </body>
 </html>

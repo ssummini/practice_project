@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시물 목록</title>
+<style type="text/css">
+body {
+    background-color: #FFE2FA;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    flex-direction: column;
+}
+
+table {
+    border-collapse: collapse;
+    border-radius: 10px;
+    background-color: white;
+    width: 800px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #CCC;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background-color: #F2F2F2;
+    color: #333;
+    font-size: 16px;
+}
+
+td {
+    color: #333;
+}
+tr:hover td, tr:hover th {
+   background-color: #FFE2FA;
+}
+
+input[type="button"] {
+    background-color: #FF9ADB;
+    border: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+input[type="button"]:hover {
+    background-color: #FF70C0;
+}
+
+img {
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: block;
+}
+</style>
+</head>
+<body>
+    <img src="../image/free-icon-love-4096198.png" alt="홈" width="60" height="60" onclick="location.href='/memberMVC/index.do'" />
+    
+    <table>
+        <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+$(function () {
+	
+	 //테스트용 더미데이터
+	 /*
+			const data = [
+		    {
+		        "seq": 1,
+		        "subject": "첫 번째 게시글",
+		        "name": "홍길동",
+		        "logtime": "2024-09-15 10:00:00",
+		        "hit": 123
+		    },
+		    {
+		        "seq": 2,
+		        "subject": "두 번째 게시글",
+		        "name": "김철수",
+		        "logtime": "2024-09-15 11:30:00",
+		        "hit": 456
+		    },
+		    {
+		        "seq": 3,
+		        "subject": "세 번째 게시글",
+		        "name": "이영희",
+		        "logtime": "2024-09-15 12:45:00",
+		        "hit": 789
+		    }
+		];
+	 
+	  
+	  
+	  $.each(data, function(index, item) {
+	           console.log(data);
+	            let row = `
+ 						<tr onclick="window.location.href='/memberMVC/boards/detail?no=${item.seq}'">
+				            <td>${item.seq}</td>
+				            <td>${item.subject}</td>
+				            <td>${item.name}</td>
+				            <td>${item.logtime}</td>
+				            <td>${item.hit}</td>
+				        </tr>
+				    `;
+	
+			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+     });
+	 
+	 
+	
+	 //쿼리스트링 페이지 번호를 가져와서 게시글 목록 요청
+	let urlParams = new URLSearchParams(window.location.search);
+    let pg = urlParams.get('pg');
+    if(pg == null){	// pg값 미 입력시 기본값 1로 예외처리
+		pg = 1;
+	}
+	// API 구현 후에는 위에 테스트 데이터는 삭제
+	*/
+    $.ajax({
+        type: 'get',
+        url: '/memberMVC/boards/list',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR) {
+           console.log(data);
+           if(jqXHR.status === 200){ // 200 OK로 게시글 목록이 존재
+                $.each(data, function(index, item) {
+                   console.log(data);
+                    let row = `
+					       <tr onclick="window.location.href='/memberMVC/boards/detail?no=${item.seq}'">
+					            <td>${item.seq}</td>
+					            <td>${item.subject}</td>
+					            <td>${item.name}</td>
+					            <td>${item.logtime}</td>
+					            <td>${item.hit}</td>
+					        </tr>
+					    `;
+
+    			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+                });
+           }
+           else if(jqXHR.status === 204){ // 204 No content로 게시글이 없음
+           
+          		let row = '<tr><td rowspan="5">등록된 게시글이 없습니다.</td></tr>';
+    			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+    			
+           }
+        },
+        error: function(e){
+            console.log(e);
+            let row = '<tr><td colspan="5">등록된 게시글이 없습니다.</td></tr>';
+    		$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+        }
+    });
+});
+</script>
+</body>
+</html>
