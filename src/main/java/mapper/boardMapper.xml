@@ -37,9 +37,8 @@
 	    select *
 	    from board
 	    where REGEXP_LIKE(
-	        REPLACE(LOWER(subject), ' ', ''),  <!-- 제목에서 공백 제거 및 소문자로 변환 --> 
-	        REPLACE(LOWER(#{title}), ' ', ''), <!--  NULL일 경우 빈 문자열로 처리 -->
-	        'i'  <!--  대소문자 무시 --> 
+	        REPLACE(subject, ' ', ''),  <!-- 제목에서 공백 제거 및 소문자로 변환 --> 
+	        REPLACE(#{title}, ' ', '')  <!--  NULL일 경우 빈 문자열로 처리 -->
 	    )
 	    order by seq desc
 	</select>
