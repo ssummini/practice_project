@@ -11,8 +11,8 @@
 	//int pg = Integer.parseInt(request.getParameter("pg"));
 	int pg = 1;
 	//1페이지당 5개씩
-	int endNum = pg * 5;
-	int startNum = endNum - 4;
+	int endNum = pg * 3;
+	int startNum = endNum - 2;
 
 	//DB
     BoardDAO boardDAO = BoardDAO.getInstance();
@@ -29,15 +29,9 @@
     BoardPaging boardPaging = new BoardPaging();
     boardPaging.setCurrentPage(pg);
     boardPaging.setPageBlock(3);
-    boardPaging.setPageSize(5);
+    boardPaging.setPageSize(3);
     boardPaging.setTotalA(totalA);
     
     boardPaging.makePagingHTML();
 %>
 <%=boardPaging.getPagingHTML() %>
-
-<script type="text/javascript">
-
-</script>
-</body>
-</html>
