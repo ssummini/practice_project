@@ -185,7 +185,7 @@ $(function () {
            }
            else if(jqXHR.status === 204){ // 204 No content로 게시글이 없음
            
-          		let row = '<tr><td rowspan="5">등록된 게시글이 없습니다.</td></tr>';
+          		let row = '<tr><td colspan="5">등록된 게시글이 없습니다.</td></tr>';
     			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
     			
            }
