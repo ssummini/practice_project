@@ -43,9 +43,13 @@ public class BoardDAO {
 		return result;
 	}
 	
-	public List<BoardDTO> boardList(){
+	public List<BoardDTO> boardList(int startNum, int endNum){
+		Map<String, Integer> map = new HashMap<>();
+		map.put("startNum", startNum);
+		map.put("endNum", endNum);
+		
 		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
-		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardList");
+		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardList", map);
 		sqlSession.close();
 		return list;
 	}

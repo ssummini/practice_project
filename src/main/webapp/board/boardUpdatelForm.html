@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세 페이지</title>
+<title>게시글 수정 페이지</title>
 <style type="text/css">
 body {
     background-color: #FFE2FA;
@@ -102,7 +102,7 @@ table td[colspan="2"] {
          <tr>
             <th>제목</th>
             <td>
-               <input type="text" name="subject" id="subject" size="65" readonly/>
+               <input type="text" name="subject" id="subject" size="65"/>
             </td>
          </tr>
           <tr>
@@ -120,14 +120,13 @@ table td[colspan="2"] {
           <tr>
             <th>내용</th>
             <td>
-               <textarea name="content" id="content" cols="65" rows="15" readonly></textarea>
+               <textarea name="content" id="content" cols="65" rows="15"></textarea>
             </td>
          </tr>
          <tr>
             <td colspan="2" align="center">
-			   <input type="button" id="backBtn" value="뒤로 가기" onclick="window.history.back();" />
-               <input type="button" id="updateBtn" style = "display: none;" value="수정" onclick="moveToUpdateForm()"/>
-               <input type="button" id="deleteBtn" style = "display: none;" value="삭제" />
+			   <input type="button" id="backBtn" value="뒤로 가기" onclick="window.history.back();" />              
+               <input type="button" id="updateCompleteBtn" value="수정 완료" />
             </td>
          </tr>
       </table>
@@ -136,14 +135,7 @@ table td[colspan="2"] {
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/board.js"></script>
 <script>
-function moveToUpdateForm() {
-
-   const queryString = window.location.search;
-   const urlParams = new URLSearchParams(queryString);
-    // 특정 쿼리 파라미터의 값을 가져옴
-   const no = urlParams.get('no'); // 'pg'는 쿼리 스트링의 파라미터 이름
-   window.location.href = '/memberMVC/boards/updateForm?no='+no;
-}	
+	
 $(function () {
 	
   // URL의 쿼리 스트링 부분을 가져옴
@@ -172,18 +164,14 @@ $(function () {
     $('#subject').val(data.subject); 
     $('#logtime').text(data.logtime); 
     $('#content').text(data.content);
-	*/               
+	*/             
 	
 	$.ajax({
 	        type: 'get',
 	        url: '/memberMVC/boards/detail?no='+no,
 	        dataType: 'json',
 	        success: function(data, textStatus, jqXHR) {
-         		console.log(data);
-         		if (data.isWriter) {
-                	$('#updateBtn').show();  // 버튼을 보이게
-                	$('#deleteBtn').show();  // 버튼을 보이게
-           	    }
+         		console.log(data);	
 	            $('#seq').text(data.seq); 
 	            $('#name').text(data.name); 
 	            $('#subject').val(data.subject); 
@@ -199,27 +187,31 @@ $(function () {
 	            $('#logtime').empty();
 	            $('#content').text('해당 게시글이 존재하지 않습니다.');
 	        }
-   		});//ajax 끝
-   		
-   		
-   		
-   	 $('#deleteBtn').on('click', function(event) {
+   		});//데이터 불러오기 ajax 끝
+
+   	let boardData =
+	{
+			subject: $('#subject').val().trim(),
+			content: $('#content').val().trim(),
+	 };
+	
+   	 $('#updateCompleteBtn').on('click', function(event) {
 
 		$.ajax({
-	        type: 'DELETE',
-	        url: '/memberMVC/boards/delete?no='+no,
-	        dataType: 'json',
+	        type: 'PUT',
+	        url: '/memberMVC/boards/update?no='+no,
+	        data: boardData, 	
 	        success: function(data, textStatus, jqXHR) {
 	           console.log(data);
 	           if(jqXHR.status === 200){ // 200 OK로 게시글 목록이 존재
-	                alert('게시글이 삭제되었습니다.');
-					window.location.href = "/memberMVC/boards/listForm";
+	                alert('게시글이 수정되었습니다.');
+					window.location.href = "/memberMVC/boards/detailForm?no="+no;
 	           }
 	        },
 	     	error: function(xhr, textStatus, errorThrown) {
 	            //console.log(e);
 				if (xhr.status === 403) {	// Forbidden 권한 없음
-					alert('게시글 삭제 권한이 없습니다.');
+					alert('게시글 수정 권한이 없습니다.');
 				}
 				else if (xhr.status === 404) {	// Not Found 
 					alert('게시글이 존재하지 않습니다.');
@@ -227,7 +219,7 @@ $(function () {
 	        }
    		});//ajax 끝
 
-	});//deleteBtn onclick 끝	
+	});//updateCompleteBtn onclick 끝	
    		
 });
 </script>

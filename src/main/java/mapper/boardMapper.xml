@@ -10,7 +10,7 @@
     </insert>
     
     <!-- 글목록 -->
-	<select id="boardList" resultType="board.bean.BoardDTO">
+	<select id="boardList" parameterType="java.util.Map" resultType="board.bean.BoardDTO">
 	   <!-- select * from (
 	        select rownum rn, tt.* from (
 	            select * from board order by ref desc, step asc
@@ -21,15 +21,16 @@
 	            select * from board order by ref desc, step asc
 	        ) tt
 	    ) where rn >= #{startNum} and rn &lt;= #{endNum}  -->
-<!-- 	    <![CDATA[
+ 	    
+ 	    <![CDATA[
 	    	select * from (
 	        select rownum rn, tt.* from (
 	            select * from board order by ref desc, step asc
 	        ) tt
 	    	)where rn >= #{startNum} and rn <= #{endNum}
-	    ]]> -->
+	    ]]>
 	    
-	     select * from board order by seq desc
+	     <!-- select * from board order by seq desc  -->
 	</select>
 
 	<!-- 글 검색 -->

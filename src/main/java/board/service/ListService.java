@@ -18,7 +18,14 @@ public class ListService implements CommandProcess {
     @Override
     public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         BoardDAO boardDAO = BoardDAO.getInstance();
-        List<BoardDTO> list = boardDAO.boardList();
+        
+    	int pg = Integer.parseInt(request.getParameter("pg"));
+
+    	//1페이지당 3개씩
+    	int endNum = pg * 3;
+    	int startNum = endNum - 2;
+        
+        List<BoardDTO> list = boardDAO.boardList(startNum, endNum);
 
         // 게시글이 없을 때
         if (list == null || list.isEmpty()) {
