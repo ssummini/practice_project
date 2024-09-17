@@ -229,7 +229,7 @@ $(function () {
         url: '/memberMVC/boards/pagehtml?pg='+pg,
         dataType: 'text/html',
         success: function(data, textStatus, jqXHR) {
-           console.log(data);
+           $('pageBlcok').html(data);
         },
         error: function(e){
             console.log(e);
