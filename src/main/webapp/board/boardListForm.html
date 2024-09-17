@@ -61,17 +61,34 @@ input[type="button"] {
 input[type="button"]:hover {
     background-color: #FF70C0;
 }
-
+input[type="text"]{
+    padding: 8px;
+    margin: 10px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 50%;
+    font-size: 14px;
+}
 img {
     margin-bottom: 20px;
     cursor: pointer;
     display: block;
 }
+#searchBox{
+	margin-top: 30px;
+	margin-bottom: 30px;
+	display: flex;
+    justify-content: center;
+}
 </style>
 </head>
 <body>
     <img src="../image/free-icon-love-4096198.png" alt="홈" width="60" height="60" onclick="location.href='/memberMVC/index.do'" />
-    
+    <div id = "searchBox">
+	    <input type="text" id="searchInput" name="searchInput" id="subject" size="65" placeholder="제목 입력"/>
+	    <input type="button" id="searchBtn" value="검색" />
+	</div>
     <table>
         <thead>
             <tr>
@@ -122,7 +139,7 @@ $(function () {
 	  $.each(data, function(index, item) {
 	           console.log(data);
 	            let row = `
- 						<tr onclick="window.location.href='/memberMVC/boards/detail?no=${item.seq}'">
+ 						<tr onclick="window.location.href='/memberMVC/boards/detailForm?no=${item.seq}'">
 				            <td>${item.seq}</td>
 				            <td>${item.subject}</td>
 				            <td>${item.name}</td>
@@ -154,7 +171,7 @@ $(function () {
                 $.each(data, function(index, item) {
                    console.log(data);
                     let row = `
-					       <tr onclick="window.location.href='/memberMVC/boards/detail?no=${item.seq}'">
+					       <tr onclick="window.location.href='/memberMVC/boards/detailForm?no=${item.seq}'">
 					            <td>${item.seq}</td>
 					            <td>${item.subject}</td>
 					            <td>${item.name}</td>
@@ -179,6 +196,59 @@ $(function () {
     		$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
         }
     });
+    
+    //검색 버튼 클릭 시 ajax 요청
+    
+    $('#searchBtn').on('click', function(event) {
+
+		if ($('#searchInput').val().trim() === '') {
+			alert('제목을 입력해주세요.');
+			$('#searchInput').focus();
+			return;
+		}
+		$('tbody').empty();	//기존의 게시글 목록 비우기
+		
+		let searchTitle = $('#searchInput').val().trim();
+		// 검색어로 ajax 요청
+		
+		$.ajax({
+	        type: 'get',
+	        url: '/memberMVC/boards/search?title='+searchTitle,
+	        dataType: 'json',
+	        success: function(data, textStatus, jqXHR) {
+	           console.log(data);
+	           if(jqXHR.status === 200){ // 200 OK로 게시글 목록이 존재
+	                $.each(data, function(index, item) {
+	                   console.log(data);
+	                    let row = `
+						       <tr onclick="window.location.href='/memberMVC/boards/detailForm?no=${item.seq}'">
+						            <td>${item.seq}</td>
+						            <td>${item.subject}</td>
+						            <td>${item.name}</td>
+						            <td>${item.logtime}</td>
+						            <td>${item.hit}</td>
+						        </tr>
+						    `;
+	
+	    			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+	                });
+	           }
+	           else if(jqXHR.status === 204){ // 204 No content로 게시글이 없음
+	           
+	          		let row = '<tr><td rowspan="5">검색 결과가 없습니다.</td></tr>';
+	    			$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+	    			
+	           }
+	        },
+	        error: function(e){
+	            console.log(e);
+	            let row = '<tr><td colspan="5">검색 결과가 없습니다.</td></tr>';
+	    		$('tbody').append(row);  // 생성된 행을 테이블의 tbody에 추가
+	        }
+   		});//ajax 끝
+
+	});//searchBtn onclick 끝
+	
 });
 </script>
 </body>
