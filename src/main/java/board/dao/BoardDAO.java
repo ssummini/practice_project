@@ -50,6 +50,13 @@ public class BoardDAO {
 		return list;
 	}
 	
+	public List<BoardDTO> boardSearch(String title){
+		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
+		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardSearch", title);
+		sqlSession.close();
+		return list;
+	}
+	
 	public int getTotalA() {
 		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
 		int totalA = sqlSession.selectOne("boardSQL.getTotalA");
