@@ -38,12 +38,21 @@
 	    select *
 	    from board
 	    where REGEXP_LIKE(
-	        REPLACE(subject, ' ', ''),  <!-- 제목에서 공백 제거 및 소문자로 변환 --> 
-	        REPLACE(#{title}, ' ', '')  <!--  NULL일 경우 빈 문자열로 처리 -->
+	        REPLACE(subject, ' ', ''),  <!-- 제목에서 공백 제거--> 
+	        REPLACE(#{title}, ' ', '')  <!--  검색어에서도 공백 제거 -->
 	    )
 	    order by seq desc
 	</select>
 	
+	<!-- 글 상세보기 -->
+	<select id="boardDetail" parameterType="String" resultType="board.bean.BoardDTO">
+ 		select * from board where seq = #{no}
+ 	</select>
+ 	
+ 	<!-- 글 삭제하기 -->
+ 	<delete id="boardDelete" parameterType="String">
+ 		delete from board where seq = #{no}
+ 	</delete>
 	<!-- 총글수 -->
     <select id="getTotalA" resultType="int">
         select count(*) from board

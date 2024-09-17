@@ -108,6 +108,9 @@ public class BoardControlServlet extends HttpServlet {
 		execute(request, response);
 	}
 	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		execute(request, response);
+	}
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println();
 		

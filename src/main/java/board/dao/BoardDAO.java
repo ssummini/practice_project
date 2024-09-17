@@ -61,6 +61,20 @@ public class BoardDAO {
 		return list;
 	}
 	
+	public BoardDTO boardDetail(String no) {
+		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
+		BoardDTO boardDTO = sqlSession.selectOne("boardSQL.boardDetail", no);
+		sqlSession.close();
+		return boardDTO;
+	}
+	
+	public void boardDelete(String no) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		sqlSession.delete("boardSQL.boardDelete", no);
+		sqlSession.commit();
+		sqlSession.close();
+	}
+	
 	public int getTotalA() {
 		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
 		int totalA = sqlSession.selectOne("boardSQL.getTotalA");
