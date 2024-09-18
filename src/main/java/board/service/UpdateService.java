@@ -9,13 +9,18 @@ import com.control.CommandProcess;
 import board.bean.BoardDTO;
 import board.dao.BoardDAO;
 
-public class DeleteService implements CommandProcess{
+public class UpdateService implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-		String no = request.getParameter("no");
+		int no = Integer.parseInt(request.getParameter("no"));
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+				
+		System.out.println(subject);
+		System.out.println(content);
 		
-		BoardDAO boardDAO = BoardDAO.getInstance();		
-		BoardDTO boardDTO = boardDAO.boardDetail(no);
+		BoardDAO boardDAO = BoardDAO.getInstance();
+		BoardDTO boardDTO = boardDAO.boardDetail(String.valueOf(no));
 		
         // 해당 게시글이 존재하지 않는 경우
         if (boardDTO == null) {
@@ -31,16 +36,19 @@ public class DeleteService implements CommandProcess{
             response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
             return "none";
         }
-
-        // 해당 글 작성한 회원 맞는 경우
-        int result = boardDAO.boardDelete(no);
         
-        if (result == 1) 
-            // 삭제 성공 시
-            response.setStatus(HttpServletResponse.SC_OK); // 200 OK
-        else 
-            // 삭제 실패 시
+		boardDTO.setSeq(no);
+		boardDTO.setSubject(subject);
+		boardDTO.setContent(content);
+		
+		int result = boardDAO.boardUpdate(boardDTO);
+		
+		 // 수정 실패 시
+        if (result == 0)
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 Bad Request
+        else
+            response.setStatus(HttpServletResponse.SC_OK); // 200 OK
+        
         
         return "none";
 	}
