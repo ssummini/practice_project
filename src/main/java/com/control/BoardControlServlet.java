@@ -118,10 +118,8 @@ public class BoardControlServlet extends HttpServlet {
 	
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println();
-		
 		if(request.getMethod().equals("POST")) 
 			request.setCharacterEncoding("UTF-8");
-		
 		//http://localhost:8080/memberMVC/member/writeForm.do
 		//요청한 URL에서 "/member/writeForm.do" 뜯어오기
 		String category = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());

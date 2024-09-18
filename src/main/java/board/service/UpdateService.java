@@ -13,10 +13,12 @@ public class UpdateService implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		int no = Integer.parseInt(request.getParameter("no"));
+		
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
 				
 		System.out.println(subject);
+		System.out.println(no);
 		System.out.println(content);
 		
 		BoardDAO boardDAO = BoardDAO.getInstance();
