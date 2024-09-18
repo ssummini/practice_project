@@ -193,14 +193,14 @@ $(function () {
    	 $('#updateCompleteBtn').on('click', function(event) {
 	   	let boardData =
 		{
-				subject: $('#subject').val().trim(),
-				content: $('#content').val().trim(),
+				'subject' : $('#subject').val().trim(),
+				'content' : $('#content').val().trim(),
 		 };
 		 console.log(boardData);
 		$.ajax({
-	        type: 'post',
+	        type: 'POST',
 	        url: '/memberMVC/boards/update?no='+no,
-	        data: boardData, 	
+	        data: boardData, 
 	        success: function(data, textStatus, jqXHR) {
 	           console.log(data);
 	           if(jqXHR.status === 200){ // 200 OK로 게시글 목록이 존재

@@ -1,5 +1,7 @@
 package board.service;
 
+import java.io.BufferedReader;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,7 +15,7 @@ public class WriteService implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		HttpSession session = request.getSession();
-		
+			
 		String id = (String) session.getAttribute("memId");
 		String name = (String) session.getAttribute("memName");
 		String email = (String) session.getAttribute("memEmail");

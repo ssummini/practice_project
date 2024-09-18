@@ -22,8 +22,8 @@ $(function() {
 
 		let boardData =
 		{
-			subject: $('#subject').val().trim(),
-			content: $('#content').val().trim(),
+			'subject' : $('#subject').val().trim(),
+			'content' : $('#content').val().trim(),
 		};
 		// 유효성 검사를 모두 통과한 경우에만 ajax 요청 실행
 		if (isValid) {
@@ -31,6 +31,7 @@ $(function() {
 				type: 'post',
 				url: '/memberMVC/boards/write',
 				data: boardData, // 제목 , 내용 JSON 형태로 RequestBody에 담기
+				contentType: 'application/json',	
 				success: function(response, textStatus, jqXHR) {
 					// jqXHR.status => response 헤더의 상태 코드
 					if (jqXHR.status === 201) {	// Created
