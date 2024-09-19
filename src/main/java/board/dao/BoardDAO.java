@@ -88,6 +88,7 @@ public class BoardDAO {
 		SqlSession sqlSession = sqlSessionFactory.openSession(); //생성
 		int totalA = sqlSession.selectOne("boardSQL.getTotalA");
 		sqlSession.close();
+		System.out.println("totalA = " + totalA); 
 		return totalA;
 	}
 }

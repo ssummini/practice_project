@@ -70,8 +70,7 @@ public class UpdateService implements CommandProcess{
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 Bad Request
         else
             response.setStatus(HttpServletResponse.SC_OK); // 200 OK
-        
-        
+               
         return "none";
 	}
 }
