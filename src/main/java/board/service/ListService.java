@@ -22,8 +22,8 @@ public class ListService implements CommandProcess {
     	int pg = Integer.parseInt(request.getParameter("pg"));
 
     	//1페이지당 3개씩
-    	int endNum = pg * 3;
-    	int startNum = endNum - 2;
+    	int endNum = pg * 5;
+    	int startNum = endNum - 4;
         
         List<BoardDTO> list = boardDAO.boardList(startNum, endNum);
 
