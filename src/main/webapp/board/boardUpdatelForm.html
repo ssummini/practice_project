@@ -198,7 +198,7 @@ $(function () {
 		 };
 		 console.log(boardData);
 		$.ajax({
-	        type: 'POST',
+	        type: 'PUT',
 	        url: '/memberMVC/boards/update?no='+no,
 	        contentType: 'application/json',
 			data: JSON.stringify(boardData), // 제목 , 내용 JSON 형태로 RequestBody에 담기					
