@@ -227,9 +227,9 @@ $(function () {
      $.ajax({
         type: 'get',
         url: '/memberMVC/boards/pagehtml?pg='+pg,
-        dataType: 'text/html',
+        dataType: 'html',
         success: function(data, textStatus, jqXHR) {
-           $('pageBlcok').html(data);
+           $('#pageBlcok').html(data);
         },
         error: function(e){
             console.log(e);
