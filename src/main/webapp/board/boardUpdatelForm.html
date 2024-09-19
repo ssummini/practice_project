@@ -200,8 +200,9 @@ $(function () {
 		$.ajax({
 	        type: 'POST',
 	        url: '/memberMVC/boards/update?no='+no,
-	        data: boardData, 
-	        success: function(data, textStatus, jqXHR) {
+	        contentType: 'application/json',
+			data: JSON.stringify(boardData), // 제목 , 내용 JSON 형태로 RequestBody에 담기					
+			success: function(data, textStatus, jqXHR) {
 	           console.log(data);
 	           if(jqXHR.status === 200){ // 200 OK로 게시글 목록이 존재
 	                alert('게시글이 수정되었습니다.');

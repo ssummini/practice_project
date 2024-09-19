@@ -30,8 +30,8 @@ $(function() {
 			$.ajax({
 				type: 'post',
 				url: '/memberMVC/boards/write',
-				data: boardData, // 제목 , 내용 JSON 형태로 RequestBody에 담기
-				contentType: 'application/json',	
+				contentType: 'application/json',
+				data: JSON.stringify(boardData), // 제목 , 내용 JSON 형태로 RequestBody에 담기					
 				success: function(response, textStatus, jqXHR) {
 					// jqXHR.status => response 헤더의 상태 코드
 					if (jqXHR.status === 201) {	// Created

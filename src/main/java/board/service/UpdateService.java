@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import com.control.CommandProcess;
 
 import board.bean.BoardDTO;
@@ -18,8 +20,22 @@ public class UpdateService implements CommandProcess{
         
 		int no = Integer.parseInt(request.getParameter("no"));
 		
-		String subject = request.getParameter("subject");
-		String content = request.getParameter("content");
+		BufferedReader reader = request.getReader();
+        StringBuilder jsonStringBuilder = new StringBuilder();
+        String line;
+        
+        while ((line = reader.readLine()) != null) {
+            jsonStringBuilder.append(line);
+        }
+        
+        String jsonString = jsonStringBuilder.toString(); // 요청에서 받은 JSON 문자열
+
+        // 2. JSON 문자열을 파싱하여 JSONObject로 변환
+
+	    JSONObject jsonObject = new JSONObject(jsonString);
+		
+	    String subject = jsonObject.getString("subject");
+	    String content = jsonObject.getString("content");
 				
 		System.out.println(subject);
 		System.out.println(no);

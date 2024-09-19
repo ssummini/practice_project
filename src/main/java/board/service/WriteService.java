@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import com.control.CommandProcess;
 
 import board.bean.BoardDTO;
@@ -15,7 +17,22 @@ public class WriteService implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		HttpSession session = request.getSession();
-			
+		BufferedReader reader = request.getReader();
+        StringBuilder jsonStringBuilder = new StringBuilder();
+        String line;
+        
+        while ((line = reader.readLine()) != null) {
+            jsonStringBuilder.append(line);
+        }
+        
+        String jsonString = jsonStringBuilder.toString(); // 요청에서 받은 JSON 문자열
+
+        // 2. JSON 문자열을 파싱하여 JSONObject로 변환
+
+	    JSONObject jsonObject = new JSONObject(jsonString);
+	    String subject = jsonObject.getString("subject");
+	    String content = jsonObject.getString("content");
+	     
 		String id = (String) session.getAttribute("memId");
 		String name = (String) session.getAttribute("memName");
 		String email = (String) session.getAttribute("memEmail");
@@ -25,8 +42,8 @@ public class WriteService implements CommandProcess{
             return "none";
         }
         
-		String subject = request.getParameter("subject");
-		String content = request.getParameter("content");
+		//String subject = request.getParameter("subject");
+		//String content = request.getParameter("content");
         
 		BoardDTO boardDTO = new BoardDTO();
 		boardDTO.setId(id);
